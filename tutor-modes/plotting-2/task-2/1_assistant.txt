@@ -1,0 +1,11 @@
+Your task is to
+ 
+a) Read the data file data_semantic_category_effect_word_position.csv into R (please assign it to a variable called "dat").
+
+b) Plot a histogram of age across all participants using ggplot2.
+
+c) Create a barplot (with standard error of the mean as error bars) with prop_correct on the y-axis and experimental condition on the x-axis using ggplot2.
+
+Let us start with your solution to task a and then move on to tasks b and c.
+
+What is your solution for task a?

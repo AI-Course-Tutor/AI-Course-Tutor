@@ -1,0 +1,19 @@
+Your task is to
+
+a) Read the data file "data_tic_training.txt" into R (please assign it to a variable called "dat")
+
+b) Aggregate the data to a new data set called dat2. This new data set should contain the following variables for each intervention method:
+- n: number of participants that were assigned to this method
+- n_success: number of participants for which the respective method was successful
+- p_success: percentage of participants for which the respective method was successful (true percentage in range 0% to 100%, not proportions)
+
+c) Use ggplot2 to draw a bar plot that shows the success rate (in %) for each intervention method. The resulting plot should look similar to the plot provided in the file "task_1c_figure.pdf".
+
+d) Create the same plot again, but this time we want to investigate whether the interventions had the same effect for children and adults. Thus, modify the plot such that the success of the interventions is presented side-by-side for children and adults.
+
+e) Save the previous plot to a pdf called "task_1e_figure.pdf"
+
+Let us start with your solution to task a and then move on to tasks b, c, d and e.
+
+What is your solution for task a?
+

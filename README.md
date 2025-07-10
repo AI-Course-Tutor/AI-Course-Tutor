@@ -113,10 +113,10 @@ The project should be adapted to your own needs before use. To facilitate the ad
 
 ### Admin Contact
 A contact name and contact email are presented in several error messages. Please adjust the following lines of code:
-- [src/AccessToken.php](src/AccessToken.php#L19)
-- [src/GPT.php](src/GPT.php#L56)
-- [templates/footer.php](templates/footer.php#L11)
-- [public/consent.php](public/consent.php#L26)
+- [src/AccessToken.php](src/AccessToken.php)
+- [src/GPT.php](src/GPT.php)
+- [templates/footer.php](templates/footer.php)
+- [public/consent.php](public/consent.php)
 
 ### Imprint / Impressum
 For legal reasons, the imprint must be adapted to the responsible institution.
@@ -201,3 +201,14 @@ The sessions and tasks created in this way must be made available on the main pa
 <?php endif; ?>
 ```
 Note: The value behind the # is used as title in the conversation history, e.g. `data-preparation-2$task-2#Data Prep 2: Task 2` -> Title is `Data Prep 2: Task 2`
+
+
+## Contributors / Contact
+
+### Contributors
+
+- Dr. Frank Papenmeier
+
+### Contact
+
+For questions regarding this project, please contact Dr. Frank Papenmeier at frank.papenmeier@uni-tuebingen.de

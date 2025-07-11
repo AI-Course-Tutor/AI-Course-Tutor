@@ -202,6 +202,32 @@ The sessions and tasks created in this way must be made available on the main pa
 ```
 Note: The value behind the # is used as title in the conversation history, e.g. `data-preparation-2$task-2#Data Prep 2: Task 2` -> Title is `Data Prep 2: Task 2`
 
+## Screenshots
+
+### Select tutor mode (general question vs. compare homework task)
+
+Layout defined in [templates/select.php](templates/select.php)
+
+<img width="580" height="695" alt="screenshot_select_tutor_mode" src="https://github.com/user-attachments/assets/5279089c-c741-494c-9367-af4369dfad67" />
+
+### Asking a general question
+
+Uses the following prompts:
+1. system prompt: [tutor-modes/!default/1_system.txt](tutor-modes/!default/1_system.txt)
+2. assistant prompt: [tutor-modes/general/question/1_assistant.txt](tutor-modes/general/question/1_assistant.txt)
+
+<img width="580" height="695" alt="screenshot_general_questions" src="https://github.com/user-attachments/assets/1bf5b718-8171-4896-aca0-8e229e8c1e89" />
+
+### Compare homework task (guide toward solution)
+
+Uses the following prompts:
+1. system prompt: [tutor-modes/!default/1_system.txt](tutor-modes/!default/1_system.txt)
+2. assistant prompt: [tutor-modes/plotting-2/task-2/1_assistant.txt](tutor-modes/plotting-2/task-2/1_assistant.txt)
+3. system prompt: [tutor-modes/plotting-2/task-2/2_system.txt](tutor-modes/plotting-2/task-2/2_system.txt)
+4. system prompt: [tutor-modes/plotting-2/task-2/3_system.txt](tutor-modes/plotting-2/task-2/3_system.txt)
+
+<img width="580" height="695" alt="screenshot_compare_homework_task" src="https://github.com/user-attachments/assets/88bcce3d-2e69-4ffa-9b89-7f1fd766e036" />
+
 
 ## Contributors / Contact
 

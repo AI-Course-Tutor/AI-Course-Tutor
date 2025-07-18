@@ -89,8 +89,13 @@ This will install all required dependencies into the `vendor` folder.
 ### 8. Troubleshooting
 
 - If you see no website or an error message occurs, do as follows to access the Apache (= web server) error log files:
-- In the UniController GUI:
-    - Go to **Apache** → **Apache Logs** → **View Apache Error Log** to inspect errors (Note: latest errors are at bottom of the file)
+    - In the UniController GUI:
+        - Go to **Apache** → **Apache Logs** → **View Apache Error Log** to inspect errors (Note: latest errors are at bottom of the file)
+- If you use UniServerZ and the website feels rather slow when navigating from page to page:
+    - edit file `core/mysql/my.ini`:
+        - replace `bind-address=127.0.0.1` with `bind-address=::`
+        - restart Apache and MySQL
+        - test whether page loads faster now
 
 ## Necessary Adaptations
 The project should be adapted to your own needs before use. To facilitate the adaptation, we have defined the following placeholders that can be replaced throughout the project:

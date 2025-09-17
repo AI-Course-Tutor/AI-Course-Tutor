@@ -34,15 +34,18 @@ if (isset($_POST['tutor_mode']) || isset($_SESSION['predefined_tutor_mode'])) {
         $tutor_mode = $_POST["tutor_mode"];
     }
 
-    if (isset($_SESSION['$continue_last_conversation_once'])) { // try to continue last conversation if a conversation with same tutor mode exists (only when using predefined_tutor_mode)
-        unset($_SESSION['$continue_last_conversation_once']);
+    if (isset($_SESSION['continue_last_conversation_once'])) { // try to continue last conversation if a conversation with same tutor mode exists (only when using predefined_tutor_mode)
+        unset($_SESSION['continue_last_conversation_once']);
 
-        $conversations = $chat->getConversations();
+        $config = Configuration::getInstance();
+        if ($config->isConversationHistoryEnabled()) {
+            $conversations = $chat->getConversations();
 
-        foreach ($conversations as $conversation) {
-            if ($conversation["tutor_mode"] == $tutor_mode) {
-                $_SESSION['conversation_id'] = $conversation["id"];
-                break;
+            foreach ($conversations as $conversation) {
+                if ($conversation["tutor_mode"] == $tutor_mode) {
+                    $_SESSION['conversation_id'] = $conversation["id"];
+                    break;
+                }
             }
         }
 
@@ -96,8 +99,15 @@ if (isset($_POST['tutor_mode']) || isset($_SESSION['predefined_tutor_mode'])) {
 
 // get all conversations belonging to this user from DB
 // --> template adds them to output
-$conversations = $chat->getConversations();
+$config = Configuration::getInstance();
+if ($config->isConversationHistoryEnabled()) {
+    $conversations = $chat->getConversations();
+} else {
+    $conversations = [];
+}
 
-include '../templates/select.php';
+$config->renderPage('select.php', [
+    'conversations' => $conversations
+]);
 
 ?>

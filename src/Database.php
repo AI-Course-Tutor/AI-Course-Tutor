@@ -10,8 +10,10 @@ SQL for database creation:
 CREATE TABLE users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    credential VARCHAR(255) NOT NULL,
     consent VARCHAR(255) NOT NULL DEFAULT "",
+    pretest_completed TINYINT NOT NULL DEFAULT 0,
+    is_admin TINYINT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -47,6 +49,7 @@ class Database {
 
         try {
             $this->conn = new PDO("mysql:host=" . $_ENV['DATABASE_HOST'] . ";dbname=" . $_ENV['DATABASE_DB_NAME'] . ";charset=utf8mb4", $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }

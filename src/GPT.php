@@ -18,11 +18,13 @@ class GPT {
         $tokens_prompt = 0;
         $tokens_completion = 0;
 
+        $config = Configuration::getInstance();
+        
         try {
             $chat_completion = $this->openai_client->chat()->create([
-                'model' => 'gpt-4o-mini-2024-07-18', // name of model that should be used
-                'n' => 1, // ensure we get only 1 answer (this is already the default, just to make sure)
-                'max_tokens' => 4096, // maximum number allowed for gpt-4o-mini (is also default, just to make sure)
+                'model' => $config->getGptModel(),
+                'n' => 1,
+                'max_tokens' => $config->getGptMaxTokens(),
                 'messages' => $chat_messages,
             ]);
 
@@ -36,7 +38,9 @@ class GPT {
             error_log( $e->getTraceAsString() );
 
             $status = "error";
-            $response = 'An error occurred. Please try again. If it still occurs, please contact [your-name] at [your-email] and provide the following information. Error message: "' . $e->getMessage() . '" + Timestamp: ' . time() . '. Thank you.';
+            $contact_name = $config->placeholderRaw('contact.name');
+            $contact_email = $config->placeholderRaw('contact.email');
+            $response = 'An error occurred. Please try again. If it still occurs, please contact ' . $contact_name . ' at ' . $contact_email . ' and provide the following information. Error message: "' . $e->getMessage() . '" + Timestamp: ' . time() . '. Thank you.';
 
         }
 

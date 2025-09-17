@@ -1,6 +1,6 @@
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f7f7f7;
+    background-color: var(--body-bg);
     margin: 0;
     padding: 0;
 }
@@ -19,18 +19,24 @@ body {
     width: 20%;
     min-height: 100vh;
     padding: 10px;
-    background: #fff;
+    background: var(--container-bg);
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px var(--box-shadow);
     margin-right: 20px;
 }
 
 .chat-box, .selection-box {
     width: 80%;
-    background: #fff;
+    background: var(--container-bg);
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px var(--box-shadow);
+}
+
+/* When sidebar is not present, main content should take full width */
+.container:not(:has(.history-box)) .chat-box,
+.container:not(:has(.history-box)) .selection-box {
+    width: 100%;
 }
 
 div.selection-box-homework {
@@ -53,21 +59,21 @@ div.selection-box-homework > div {
 .conversation-item {
     display: block;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     cursor: pointer;
-    background: #f8f8f8;
+    background: var(--conversation-item-bg);
 }
 
 .conversation-item:hover {
-    background: #e8e8e8;
+    background: var(--conversation-item-hover-bg);
 }
 
 .conversation-item-current {
-    background: #e8e8e8;
+    background: var(--conversation-item-current-bg);
 }
 
 span.conversation-item-title {
@@ -90,7 +96,7 @@ span.conversation-item-date {
 }
 
 .user-message {
-    background: rgb(212, 229, 238);
+    background: var(--user-message-bg);
     margin-left: auto;
     max-width: 90%;
     width: fit-content;
@@ -98,7 +104,7 @@ span.conversation-item-date {
 }
 
 .bot-response {
-    background: rgb(243, 232, 211);
+    background: var(--bot-response-bg);
     align-self: flex-end;
 }
 
@@ -119,7 +125,7 @@ form#chat-form {
 form#chat-form textarea {
     flex: 6;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 5px 0 0 5px;
     resize: none;
 }
@@ -141,14 +147,14 @@ form#finish-form {
 button {
     padding: 10px;
     border: none;
-    background: rgb(23,43,77);
-    color: #fff;
+    background: var(--primary-color);
+    color: var(--white-text);
     border-radius: 5px;
     cursor: pointer;
 }
 
 button[name="finish"] {
-    background: rgb(0,123,255);
+    background: var(--secondary-color);
     width: 100%;
     padding: 10px;
     margin-top: 50px;
@@ -157,8 +163,8 @@ button[name="finish"] {
 }
 
 pre {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background: var(--pre-bg);
+    border: 1px solid var(--pre-border-color);
     border-radius: 5px;
     padding: 10px;
     overflow-x: auto;
@@ -168,8 +174,8 @@ a.logout {
     display: block;
     width: fit-content;
     text-decoration: none;
-    color: white;
-    background: rgb(23,43,77);
+    color: var(--white-text);
+    background: var(--primary-color);
     padding: 10px;
     font-size: 15px;
     border-radius: 5px;
@@ -177,8 +183,8 @@ a.logout {
 }
 
 .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: rgb(23,43,77);
+    border: 4px solid var(--spinner-border);
+    border-left-color: var(--primary-color);
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -199,8 +205,8 @@ header {
 .border-tb-primary {
     border-top-style: solid;
     border-bottom-style: solid;
-    border-top-color: rgb(0,123,255);
-    border-bottom-color: rgb(0,123,255);
+    border-top-color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
     border-top-width: 2px;
     border-bottom-width: 2px;
 }
@@ -209,17 +215,13 @@ header {
     vertical-align: middle;
 }
 
-.text-primary {
-    color: rgb(0,123,255);
-}
-
 footer {
     text-align: center;
 }
 
 footer > a {
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
 }
 
 
@@ -243,7 +245,7 @@ footer > a {
     min-width: 48px;
     height: 24px;
     margin-right: 10px;
-    background-color: #ccc;
+    background-color: var(--toggle-bg-disabled);
     border-radius: 24px;
     cursor: pointer;
 }
@@ -254,13 +256,13 @@ footer > a {
     left: 3px;
     height: 18px;
     width: 18px;
-    background-color: white;
+    background-color: var(--toggle-dot-color);
     border-radius: 50%;
     transition: transform .4s;
 }
 
 #tutor-provide-solutions-toggle.enabled {
-    background-color: rgb(23,43,77);
+    background-color: var(--toggle-bg-enabled);
 }
 
 #tutor-provide-solutions-toggle.enabled .tutor-provide-solutions-toggle-dot {
@@ -276,12 +278,40 @@ footer > a {
 
 /* CSS for tutor mode setup error message - START */
 .tutor_mode_setup_error {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: var(--error-bg);
+    color: var(--error-text);
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #f5c6cb;
+    border: 1px solid var(--error-border);
     border-radius: 4px;
     width: 100%;
 }
 /* CSS for error message - END */
+
+/* CSS for configuration warning header - START */
+.config-warning-header {
+    background-color: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-left: 4px solid var(--warning-left-border);
+    color: var(--warning-text);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: 0px 2px 4px var(--box-shadow);
+}
+
+.config-warning-content {
+    padding: 12px 20px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.config-warning-header strong {
+    color: var(--warning-text-strong);
+}
+
+.config-warning-header small {
+    color: var(--warning-text-small);
+    font-style: italic;
+}
+/* CSS for configuration warning header - END */

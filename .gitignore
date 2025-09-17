@@ -1,3 +1,17 @@
 /.idea/
 /vendor/
 /.env
+
+# Project-specific configuration files (use .example files as templates)
+/config/placeholders.json
+/config/system.json
+/config/tutor-modes.json
+
+# Project-specific template files (use .example files as templates)
+/templates/pages/consent.php
+/templates/pages/legal-notice.php
+/templates/pages/login.php
+/templates/pages/privacy-policy.php
+
+# Project-specific customization files
+/public/assets/colors.custom.css

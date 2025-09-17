@@ -1,0 +1,6 @@
+Your task is to
+
+use the read.table() function to read the "task_1_demographics.csv" file into R.
+But how would you achieve this? Use the R help system to find it out and try it out yourself.
+
+What is your solution for the task?

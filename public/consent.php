@@ -11,23 +11,38 @@ require_once '../src/init.php';
 # start of content specific to this file
 
 require_once '../src/Auth.php';
+require_once '../src/Configuration.php';
 
 if (isset($_POST['consent'])) {
-
-    if ($_POST['consent'] == 'study_participation' || $_POST['consent'] == 'tutor_only') {
-
+    $config = Configuration::getInstance();
+    $consent_options = $config->getConsentOptions();
+    
+    $selected_consent = $_POST['consent'];
+    
+    // Check if the selected consent option exists in configuration
+    if (!isset($consent_options[$selected_consent])) {
+        echo "Invalid consent option selected. Please try again.";
+        exit();
+    }
+    
+    $consent_option = $consent_options[$selected_consent];
+    
+    // Check if this consent option allows tutor access
+    if (isset($consent_option['tutor_access']) && $consent_option['tutor_access']) {
+        // Store consent in database for options that allow tutor access
         $auth = new Auth();
 
-        if ($auth->set_consent($_POST['consent'])) {
+        if ($auth->set_consent($selected_consent)) {
             // setting consent in DB successful -> redirect to index.php, where user gets redirected depending on consent he/she gave
             header('Location: index.php');
             exit();
         } else {
-            echo "Es gab einen Fehler bei der Verarbeitung der Einwilligung. Bitte versuchen Sie es erneut. Sollte der Fehler weiterhin auftreten, dann kontaktieren Sie bitte [your-name] unter [your-email]";
+            echo "There was an error processing the consent. Please try again. If the error persists, please contact " . Configuration::getInstance()->placeholder('contact.name') . " at " . Configuration::getInstance()->placeholder('contact.email');
         }
-
     } else {
-        echo "Sie haben angegeben, dass Sie weder an der Studie teilnehmen noch den [your-tutor-name] nutzen möchten.";
+        // For options that don't allow tutor access, show message but don't store in DB
+        $consent_text = str_replace('{tutor.name}', $config->placeholderRaw('tutor.name'), $consent_option['consent_text']);
+        echo "You have selected: " . htmlspecialchars($consent_text);
         echo "<br><a href='logout.php'>Logout</a>";
     }
 
@@ -35,7 +50,7 @@ if (isset($_POST['consent'])) {
 
 
 
-    include '../templates/consent.php';
+    Configuration::getInstance()->renderPage('consent.php');
 }
 
 

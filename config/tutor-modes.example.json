@@ -1,0 +1,60 @@
+{
+  "modes": [
+    {
+      "type": "simple_button",
+      "enabled": true,
+      "title": "I have a question regarding R",
+      "button_text": "Start a new conversation with the {tutor.name}",
+      "tutor_mode_value": "general$question#Question",
+      "add_spacing_below": "4em",
+      "available_from": "2025-09-01"
+    },
+    {
+      "type": "homework_sections",
+      "enabled": true,
+      "title": "I completed my homework and want to compare my solutions",
+      "css_class": "selection-box-homework",
+      "available_from": "2025-09-10",
+      "sections": [
+        {
+          "enabled": true,
+          "title": "Data preparation part 1",
+          "available_from": "2025-09-01",
+          "tasks": [
+            {
+              "button_text": "Task 1",
+              "tutor_mode_value": "homework-data-preparation-1$task-1#Data Prep 1: Task 1"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "title": "Plotting part 2",
+          "available_from": "2025-09-11",
+          "tasks": [
+            {
+              "button_text": "Task 1",
+              "tutor_mode_value": "homework-plotting-2$task-1#Plotting 2: Task 1"
+            },
+            {
+              "button_text": "Task 2",
+              "tutor_mode_value": "homework-plotting-2$task-2#Plotting 2: Task 2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "solution_button": [
+    {
+      "tutor_mode_value_starts_with": "general",
+      "enabled": false
+    },
+    {
+      "tutor_mode_value_starts_with": "homework-",
+      "enabled": true,
+      "prompt_enable_show_solutions": "From this point forward, you provide the R code for the solution to a specific task if the user requests the solution to a specific task. Avoid giving solutions otherwise.",
+      "prompt_disable_show_solutions": "From this point forward, you must not provide the R code for the solution to a specific task if the user requests the solution to a specific task. Always focus on offering guidance or clarifications instead of direct solutions."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # AI-Course-Tutor
 ## Description
-A PHP-based frontend for using chatGPT in the context of teaching courses. The tutor is designed to provide students with feedback on stored assignments. The setup is intended to be kept as simple as possible (no use of Assistants or similar).
+A PHP-based frontend for using ChatGPT in the context of teaching courses. The tutor is designed to provide students with feedback on stored assignments. The setup is intended to be kept as simple as possible (no use of Assistants or similar).
 
 ## Installation
 
@@ -97,45 +97,94 @@ This will install all required dependencies into the `vendor` folder.
         - restart Apache and MySQL
         - test whether page loads faster now
 
-## Necessary Adaptations
-The project should be adapted to your own needs before use. To facilitate the adaptation, we have defined the following placeholders that can be replaced throughout the project:
-| Placeholder | Description |
-| --- | --- |
-|[your-name]| Name of the project responsible person (prp) |
-|[your-email]| Email of the prp |
-|[your-address]| Address of the prp |
-|[your-phone]| Phone number of the prp |
-|[your-department]| Department of the prp |
-|[your-institution]| Institution of the prp |
-|[additional-name]| Name of an additional person |
-|[additional-email]| Email of an additional person |
-|[your-study-title]| Study title |
-|[your-tutor-name]| Name of the tutor |
-|[your-study-description]| Study description |
-|[your-consent-text]| Consent text |
-|[your-privacy-policy-url]| URL to the institution's privacy policy |
-|[your-impressum-url]| URL to the institution's imprint|
+## Configuration
+The project uses a configuration-based system similar to the `.env.example`/`.env` pattern. This allows easy customization without modifying core files and maintains clean git history when forking the project.
 
-### Admin Contact
-A contact name and contact email are presented in several error messages. Please adjust the following lines of code:
-- [src/AccessToken.php](src/AccessToken.php)
-- [src/GPT.php](src/GPT.php)
-- [templates/footer.php](templates/footer.php)
-- [public/consent.php](public/consent.php)
+### Configuration Pattern
+The system uses **default configuration files** (`.example` files) that are checked into git, and **system-specific configuration files** that are ignored by git:
 
-### Imprint / Impressum
-For legal reasons, the imprint must be adapted to the responsible institution.
-- [Imprint](templates/impressum.php)
+- **Default files** (checked into git):
+  - `config/placeholders.example.json` - Template for placeholder configuration
+  - `config/system.example.json` - Template for system settings
+  - `config/tutor-modes.example.json` - Template for tutor modes
 
-### Privacy Policy
-If data is collected, it should be mentioned here!
-Also mention the use of and thus transmission of data to an American company.
-- [Privacy Policy](templates/datenschutzerklaerung.php)
+- **System-specific files** (ignored by git):
+  - `config/placeholders.json` - Your customized placeholder configuration
+  - `config/system.json` - Your customized system settings  
+  - `config/tutor-modes.json` - Your customized tutor modes
 
---> if you require a consent form, activate it (e.g., at the top of [public/index.php](public/index.php)) 
+### Setup Instructions
+1. **Copy the example files** to create your system-specific configurations:
+   ```bash
+   copy config\placeholders.example.json config\placeholders.json
+   copy config\system.example.json config\system.json
+   copy config\tutor-modes.example.json config\tutor-modes.json
+   ```
+
+2. **Edit your system-specific files** with your custom values
+
+3. **The system automatically falls back** to `.example` files if system-specific files don't exist
+
+### Placeholder Configuration (`config/placeholders.json`)
+Copy from `placeholders.example.json` and customize (e.g., contact information or tutor name used in textual output across project).
+
+### System Configuration (`config/system.json`)
+Copy from `system.example.json` and customize:
+- `gpt.model`: OpenAI model to use
+- `gpt.max_tokens`: Maximum tokens per response
+- `consent.enabled`: Enable/disable consent system
+  - `consent.options`: Map of consent options. Each option can define:
+    - `consent_text` (supports placeholders)
+    - `tutor_access`
+    - `pretest_required_before_tutor_access`
+    - `pretest_url` (URL used when pretest is required)
+- `access_token.enabled`: Enable/disable access token gating
+  - `access_token.tokens`: Array of tokens with:
+    - `value`: the token string
+    - optional `valid_from` and/or `valid_to` in `YYYY-MM-DD`
+- `sidebar.enabled`: Show/hide the sidebar
+  - `sidebar.show_logout_button`
+  - `sidebar.show_start_new_conversation_button`
+  - `sidebar.show_conversation_history`
+- `authentication.post.enabled`: Allow POST (form) authentication
+  - `authentication.post.require_password` (true: login with username and password; false: login with username only)
+  - `authentication.post.password_validation`: controls minimum length and character requirements
+- `authentication.get.enabled`: Allow GET (URL) authentication
+  - `authentication.get.require_token` (true: login with username and token; false: login with username only)
+  - `authentication.get.token_validation`: controls minimum length and allowed characters
+
+### Tutor Modes Configuration (`config/tutor-modes.json`)
+Copy from `tutor-modes.example.json` and customize:
+- Enable/disable modes (e.g., a general questions mode)
+- Configure either `simple_button` modes or `homework_sections` with nested `sections` and `tasks`
+- Set availability windows (available_from/available_to) at mode or section level
+- Configure button texts and `tutor_mode_value` strings (format: `folder$task#Conversation Title`)
+
+For detailed instructions on setting up prompts for the tutor modes, see also section [Tutor Modes / Prompts](#tutor-modes--prompts) below.
+
+### CSS Color Customization
+You can customize the color scheme of the Tutor by creating a custom CSS file:
+
+1. **Create a custom colors file**: In the `public/assets/` directory, create a file named `colors.custom.css`
+
+2. **Override color variables**: The file should use the same CSS custom property structure as `colors.css`. For example:
+   ```css
+   :root {
+       /* Override primary colors */
+       --primary-color: rgb(50, 100, 150);
+       --secondary-color: rgb(255, 140, 0);
+   }
+   ```
+
+3. **Automatic inclusion**: If `colors.custom.css` exists, it will be automatically included in the header after the default `colors.css`, allowing your custom colors to override the defaults.
+
+4. **Available variables**: See `public/assets/colors.css` for all available CSS custom properties that can be overridden.
+
+This approach allows you to customize colors without modifying the core CSS files, making it easy to maintain your customizations when updating the project.
 
 ### Database
 The following parameters must be changed in `.env` (copy and rename the `.env.example` for this):
+
 | Variable | Description |
 | --- | --- |
 |`DATABASE_HOST`| Enter the IP of the SQL database server here. If it runs on your own computer, `localhost` is sufficient |
@@ -143,13 +192,14 @@ The following parameters must be changed in `.env` (copy and rename the `.env.ex
 |`DATABASE_USERNAME`| user name to use for database access |
 |`DATABASE_PASSWORD`| user password |
 
-### chatGPT
-To establish a connection with chatGPT, an API key must be stored in the `.env` file. The API key is generated at [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys) ("Create new secret key" -> "Service Account") and then copied here. The key must not appear anywhere else! Requests to chatGPT are authorized through it and costs are billed. If this key falls into the wrong hands, it can become expensive!
+### ChatGPT
+To establish a connection with ChatGPT, an API key must be stored in the `.env` file. The API key is generated at [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys) ("Create new secret key" -> "Service Account") and then copied here. The key must not appear anywhere else! Requests to ChatGPT are authorized through it and costs are billed. If this key falls into the wrong hands, it can become expensive!
+
 | Variable | Description |
 | --- | --- |
 |`OPENAI_API_KEY`| Key in the form of `sk-...` |
 
-The model to be used is entered in [src/GPT.php](src/GPT.php). Both the performance of the tutor and the costs depend on the model. See [https://platform.openai.com/docs/pricing](https://platform.openai.com/docs/pricing) for model names that can be used and their pricing (so far we tested gpt-... models). 
+The model to be used is configured in `config/system.json` under `gpt.model`. Both the performance of the tutor and the costs depend on the model. See https://platform.openai.com/docs/pricing for available models and pricing.
 
 ## Tutor Modes / Prompts
 The prompts that control the behavior of the tutor are stored in text files stored in the "tutor_modes" folder. (Note: Make sure to add them as UTF-8 encoded text files)
@@ -160,11 +210,9 @@ The prompts can be organized in several "layers", such as:
 1. Main prompts / Default prompts: All prompts in the `tutor-modes/!default` folder are added before any other prompts. It can be used to define the general role of the tutor and limitations of the answers that the model is allowed to give.
 2. Tutor mode-specific / Task-specific prompts: Additional prompts for the respective mode or task are added, e.g. to determine general behavior for a homework task or to provide the tutor with information on the task solution.
 
-As an example, we included the default prompts of our R-Tutor, as well as the general questions mode and one homework specific mode. These can be used as inspiration to adapt the prompts to your own needs.
+As an example, we included the default prompts of our R-Tutor, as well as the general questions mode and two homework specific mode. These can be used as inspiration to adapt the prompts to your own needs.
 
-Note: There is currently the following exception to the rule that all prompts are stored in text files:
-The file [public/chat.php](public/chat.php) contains the system prompts for the solution toggle button, that is it will enter a new system prompt into the chat history whenever the toggle button changes. These prompts are still specific to R and should probably be replaced with something fitting for your content. In future development we will probably move them also into text files so they can be easily adapted.
- 
+Note: In addition to the file-based prompts described here, there are also system prompts for the solution button toggle functionality that are configured in `config/tutor-modes.json` under `solution_button`. In order to decide which solution button configuration to use for a chat, the `tutor_mode_value` of a chat is tested whether it starts with `tutor_mode_value_starts_with`, and then the respective configuration is used (enabled: true, show solution button, or false, do not show solution button; if enabled the respective system prompts are used whenever the solution button toggle state changes with a new user message).
 
 ### Organization of Prompts
 The prompts are defined in the [tutor-modes](tutor-modes) folder. A folder is created for each session or tutor mode. Within this folder, another folder is created for each task. Within the task folder, there can be multiple prompt files that are *always* named as `[order_of_execution]_[assistant/system].txt`, such as `1_assistant.txt`, `2_system.txt`, and `3_system.txt`
@@ -191,27 +239,16 @@ The second part in the prompt files defines whether the content of the respectiv
 - system prompt: Content is hidden from the user and can be used to control the tutor or to provide the tutor with hidden information, such as task solution.
 - assistant prompt: Visible in the chat as assistant answer. Could be used to provide an initial message of the tutor to the student for the respective task, such as providing the task to the student. 
 
-### Adding the Tutor Modes to the Mode Selection Page
-The sessions and tasks created in this way must be made available on the main page of the tutor. For this purpose, the following code block must be inserted in [templates/select.php](templates/select.php) for each session:
-```php
-<?php if ((new DateTime()) > (new DateTime('[date when the session should appear]')) || current_user_sees_all_boxes()): # date when this should appear on the website ?>
-    <div class="selection-box-homework">
-        <div>[title of the session]</div>
-        <button type="submit" name="tutor_mode" value="[name of the session folder]$[name of the task folder]#[custom label for data collection]">[button label]</button>
-        # examples:
-        <button type="submit" name="tutor_mode" value="data-preparation-2$task-2#Data Prep 2: Task 2">Task 2</button>
-        <button type="submit" name="tutor_mode" value="data-preparation-2$task-3#Data Prep 2: Task 3">Task 3</button>
-        #... further buttons
-    </div>
-<?php endif; ?>
-```
-Note: The value behind the # is used as title in the conversation history, e.g. `data-preparation-2$task-2#Data Prep 2: Task 2` -> Title is `Data Prep 2: Task 2`
+### Mode Selection Page
+The mode selection page is rendered from `templates/pages/select.php` and is fully driven by `config/tutor-modes.json`. You do NOT need to edit the template to add or remove modes. Buttons, sections, and their availability are generated dynamically from the JSON configuration.
+
+Note: The part after `#` in a `tutor_mode_value` is used as the conversation title in the history, e.g., `data-preparation-2$task-2#Data Prep 2: Task 2` results in the title `Data Prep 2: Task 2` in the converstation history.
 
 ## Screenshots
 
 ### Select tutor mode (general question vs. compare homework task)
 
-Layout defined in [templates/select.php](templates/select.php)
+Layout defined in [templates/pages/select.php](templates/pages/select.php)
 
 <img width="580" height="695" alt="screenshot_select_tutor_mode" src="https://github.com/user-attachments/assets/5279089c-c741-494c-9367-af4369dfad67" />
 
@@ -227,9 +264,9 @@ Uses the following prompts:
 
 Uses the following prompts:
 1. system prompt: [tutor-modes/!default/1_system.txt](tutor-modes/!default/1_system.txt)
-2. assistant prompt: [tutor-modes/plotting-2/task-2/1_assistant.txt](tutor-modes/plotting-2/task-2/1_assistant.txt)
-3. system prompt: [tutor-modes/plotting-2/task-2/2_system.txt](tutor-modes/plotting-2/task-2/2_system.txt)
-4. system prompt: [tutor-modes/plotting-2/task-2/3_system.txt](tutor-modes/plotting-2/task-2/3_system.txt)
+2. assistant prompt: [tutor-modes/homework-plotting-2/task-2/1_assistant.txt](tutor-modes/plotting-2/task-2/1_assistant.txt)
+3. system prompt: [tutor-modes/homework-plotting-2/task-2/2_system.txt](tutor-modes/plotting-2/task-2/2_system.txt)
+4. system prompt: [tutor-modes/homework-plotting-2/task-2/3_system.txt](tutor-modes/plotting-2/task-2/3_system.txt)
 
 <img width="580" height="695" alt="screenshot_compare_homework_task" src="https://github.com/user-attachments/assets/88bcce3d-2e69-4ffa-9b89-7f1fd766e036" />
 

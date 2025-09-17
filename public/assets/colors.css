@@ -1,0 +1,54 @@
+/**
+ * Color Theme Variables
+ * This file defines CSS custom properties (variables) for all theme colors.
+ * Modify these variables to customize the color scheme without editing style.css.
+ */
+
+:root {
+    /* Primary Colors */
+    --primary-color: rgb(23, 43, 77);
+    --secondary-color: rgb(0, 123, 255);
+    
+    /* Background Colors */
+    --body-bg: #f7f7f7;
+    --container-bg: #fff;
+    --pre-bg: #f8f9fa;
+    
+    /* Message Colors */
+    --user-message-bg: rgb(212, 229, 238);
+    --bot-response-bg: rgb(243, 232, 211);
+    
+    /* Border Colors */
+    --border-color: #ccc;
+    --pre-border-color: #dee2e6;
+    
+    /* Text Colors */
+    --text-color: black;
+    --white-text: #fff;
+    
+    /* Interactive Element Colors */
+    --conversation-item-bg: #f8f8f8;
+    --conversation-item-hover-bg: #e8e8e8;
+    --conversation-item-current-bg: #e8e8e8;
+    
+    /* Toggle Colors */
+    --toggle-bg-disabled: var(--border-color);
+    --toggle-bg-enabled: var(--primary-color);
+    --toggle-dot-color: var(--white-text);
+    
+    /* Error/Warning Colors */
+    --error-bg: #f8d7da;
+    --error-text: #721c24;
+    --error-border: #f5c6cb;
+    
+    --warning-bg: #fff3cd;
+    --warning-border: #ffeaa7;
+    --warning-left-border: #f39c12;
+    --warning-text: #856404;
+    --warning-text-strong: #8b5a00;
+    --warning-text-small: #6c5224;
+    
+    /* Shadow Colors */
+    --box-shadow: rgba(0, 0, 0, 0.1);
+    --spinner-border: rgba(0, 0, 0, 0.1);
+}

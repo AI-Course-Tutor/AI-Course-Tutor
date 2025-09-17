@@ -10,5 +10,5 @@ require_once '../src/init.php';
 
 # start of content specific to this file
 
-include '../templates/impressum.php';
+Configuration::getInstance()->renderPage('privacy-policy.php');
 ?>

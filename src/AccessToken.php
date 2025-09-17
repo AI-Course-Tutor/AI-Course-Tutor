@@ -15,10 +15,24 @@ class AccessToken {
 
     public static function check_access_token(): void
     {
-        // do as follows if multiple access_tokens exist:
-        // if (!isset($_SESSION['access_token']) || ($_SESSION['access_token'] != "token_1" && $_SESSION['access_token'] != "token_2")) {
-        if (!isset($_SESSION['access_token']) || ($_SESSION['access_token'] != "set_your_access_token_here")) {
-            echo "No access - Please contact [your-email] if you want to access the [your-tutor-name].";
+        $config = Configuration::getInstance();
+        $valid_tokens = $config->getValidAccessTokens();
+        
+        // If no valid access tokens are configured, deny access
+        if ($valid_tokens === null) {
+            $message = "No access - Access token system is enabled but no access token was configured. Please contact {email} if you want to access the {tutor_name}.";
+            $message = str_replace('{email}', $config->placeholderRaw('contact.email'), $message);
+            $message = str_replace('{tutor_name}', $config->placeholderRaw('tutor.name'), $message);
+            echo $message;
+            exit();
+        }
+        
+        // Check if user's session token matches any of the valid tokens
+        if (!isset($_SESSION['access_token']) || !in_array($_SESSION['access_token'], $valid_tokens)) {
+            $message = "No access - Please contact {email} if you want to access the {tutor_name}.";
+            $message = str_replace('{email}', $config->placeholderRaw('contact.email'), $message);
+            $message = str_replace('{tutor_name}', $config->placeholderRaw('tutor.name'), $message);
+            echo $message;
             exit();
         }
     }

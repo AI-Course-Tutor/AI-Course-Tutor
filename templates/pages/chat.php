@@ -12,10 +12,16 @@
 ?>
 
 
-<?php include 'header.php'; ?>
 <div class="container">
 
-    <?php include 'conversation_history.php'; ?>
+    <?php 
+    $config = Configuration::getInstance();
+    if ($config->isSidebarEnabled()) {
+        $config->includeTemplate('components/sidebar.php', [
+            'conversations' => $conversations ?? []
+        ]); 
+    }
+    ?>
 
     <div class="chat-box">
         <div id="chat-messages">
@@ -43,7 +49,7 @@ foreach ($chat_messages as $chat_message) {
             <button type="submit">Send</button>
         </form>
 
-<?php if ($cur_conversation['tutor_mode'] !== 'general$question'): ?>
+<?php if ($config->isSolutionButtonEnabled($cur_conversation['tutor_mode'])): ?>
         <!-- Toggle for Tutor Provide Solutions -->
         <div class="tutor-provide-solutions-container">
             <label class="tutor-provide-solutions-label">Tutor provides solutions on request:</label>
@@ -66,4 +72,3 @@ foreach ($chat_messages as $chat_message) {
         formatBotResponseDiv(botResponseDiv);
     });
 </script>
-<?php include 'footer.php'; ?>

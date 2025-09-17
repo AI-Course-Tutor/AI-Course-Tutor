@@ -1,0 +1,69 @@
+{
+    "gpt": {
+        "model": "gpt-4o-mini-2024-07-18",
+        "max_tokens": 4096
+    },
+    "consent": {
+        "enabled": false,
+        "options": {
+            "study_participation": {
+                "consent_text": "I confirm that I have read the participant information and consent to participate in the study. I agree that my requests and the tutor's responses as part of providing the {tutor.name}, including chat logs, will be stored and used for the study.",
+                "tutor_access": true,
+                "pretest_required_before_tutor_access": true,
+                "pretest_url": "add_url_to_pretest_and_add_return_via_callback_system_to_store_completion_of_pretest"
+            },
+            "tutor_only": {
+                "consent_text": "I do not participate in the study. I want to use the {tutor.name} without study participation. I agree that my requests and the tutor's responses as part of providing the {tutor.name}, including chat logs, will be stored. The data will not be used for the study.",
+                "tutor_access": true
+            },
+            "no_consent": {
+                "consent_text": "I do not want to participate in the study nor use the {tutor.name}.",
+                "tutor_access": false
+            }
+        }
+    },
+    "access_token": {
+        "enabled": false,
+        "tokens": [
+            {
+                "value": "set_your_first_access_token_here"
+            },
+            {
+                "value": "set_your_second_access_token_here",
+                "valid_from": "2025-09-01",
+                "valid_to": "2025-12-31"
+            },
+            {
+                "value": "set_your_third_access_token_here",
+                "valid_from": "2026-01-01"
+            }
+        ]
+    },
+    "sidebar": {
+        "enabled": true,
+        "show_logout_button": true,
+        "show_start_new_conversation_button": true,
+        "show_conversation_history": true
+    },
+    "authentication": {
+        "post": {
+            "enabled": true,
+            "require_password": true,
+            "password_validation": {
+                "enabled": true,
+                "min_length": 8,
+                "require_letters": true,
+                "require_numbers": true
+            }
+        },
+        "get": {
+            "enabled": false,
+            "require_token": true,
+            "token_validation": {
+                "enabled": true,
+                "min_length": 16,
+                "allow_alphanumeric_only": true
+            }
+        }
+    }
+}

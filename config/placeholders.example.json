@@ -1,0 +1,10 @@
+{
+  "contact": {
+    "name": "[CONFIGURE: Your Name]",
+    "email": "[CONFIGURE: your-email@institution.edu]",
+    "department": "[CONFIGURE: Your Department]"
+  },
+  "tutor": {
+    "name": "[CONFIGURE: Your Tutor Name]"
+  }
+}

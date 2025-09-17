@@ -10,5 +10,5 @@ require_once '../src/init.php';
 
 # start of content specific to this file
 
-include '../templates/datenschutzerklaerung.php';
+Configuration::getInstance()->renderPage('legal-notice.php');
 ?>

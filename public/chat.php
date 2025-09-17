@@ -56,21 +56,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         $message = $data['message'];
 
-        $system_prompt_provide_solutions = "From this point forward, you provide the R code for the solution to a specific task if the use requests the solution to a specific task. Avoid giving solutions otherwise.";
-        $last_system_message = $chat->getLastSystemMessage();
+        $config = Configuration::getInstance();
+        
+        // Get tutor mode from current conversation
+        $cur_conversation = $chat->getConversation();
+        $tutorModeValue = $cur_conversation['tutor_mode'] ?? null;
+        
+        // Only process solution toggle if the feature is enabled for this tutor mode
+        if ($tutorModeValue && $config->isSolutionButtonEnabled($tutorModeValue)) {
+            $system_prompt_provide_solutions = $config->getSolutionToggleEnablePrompt($tutorModeValue);
+            $last_system_message = $chat->getLastSystemMessage();
 
-        // process magic strings added to message
-        if (str_starts_with($message, '#+TPS1+#')) {  // tutor provides solutions toggle is enabled
-            $message = substr($message, strlen('#+TPS1+#'));
+            // process magic strings added to message
+            if (str_starts_with($message, '#+TPS1+#')) {  // tutor provides solutions toggle is enabled
+                $message = substr($message, strlen('#+TPS1+#'));
 
-            // if last system message was not $system_prompt_provide_solutions, then add it now
-            if (is_null($last_system_message) || strcmp($last_system_message, $system_prompt_provide_solutions) !== 0) {
-                $chat->addMessage('system', $system_prompt_provide_solutions);
+                // if last system message was not $system_prompt_provide_solutions, then add it now
+                if (is_null($last_system_message) || strcmp($last_system_message, $system_prompt_provide_solutions) !== 0) {
+                    $chat->addMessage('system', $system_prompt_provide_solutions);
+                }
+            } else { // tutor provides solutions toggle is disabled
+                // if last system message was $system_prompt_provide_solutions, then revoke it
+                if (! is_null($last_system_message) && strcmp($last_system_message, $system_prompt_provide_solutions) === 0) {
+                    $chat->addMessage('system', $config->getSolutionToggleDisablePrompt($tutorModeValue));
+                }
             }
-        } else { // tutor provides solutions toggle is disabled
-            // if last system message was  $system_prompt_provide_solutions, then revoke it
-            if (! is_null($last_system_message) && strcmp($last_system_message, $system_prompt_provide_solutions) === 0) {
-                $chat->addMessage('system', "From this point forward, you must not provide the R code for the solution to a specific task if the use requests the solution to a specific task. Always focus on offering guidance or clarifications instead of direct solutions.");
+        } else {
+            // Solution button is disabled for this mode, remove magic string if present but don't process toggle logic
+            if (str_starts_with($message, '#+TPS1+#')) {
+                $message = substr($message, strlen('#+TPS1+#'));
             }
         }
 
@@ -127,9 +141,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // get all conversations belonging to this user from DB
     // --> template adds them to output
-    $conversations = $chat->getConversations();
+    $config = Configuration::getInstance();
+    if ($config->isConversationHistoryEnabled()) {
+        $conversations = $chat->getConversations();
+    } else {
+        $conversations = [];
+    }
 
 
-    include '../templates/chat.php';
+    $config->renderPage('chat.php', [
+        'chat_messages' => $chat_messages,
+        'cur_conversation' => $cur_conversation,
+        'conversations' => $conversations
+    ]);
 }
 ?>

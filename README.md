@@ -248,9 +248,9 @@ Note: The part after `#` in a `tutor_mode_value` is used as the conversation tit
 
 ### Select tutor mode (general question vs. compare homework task)
 
-Layout defined in [templates/pages/select.php](templates/pages/select.php)
+Layout defined via [config/tutor-modes.json](config/tutor-modes.example.json)
 
-<img width="580" height="695" alt="screenshot_select_tutor_mode" src="https://github.com/user-attachments/assets/5279089c-c741-494c-9367-af4369dfad67" />
+<img width="580" height="681" alt="screenshot_select_tutor_mode" src="https://github.com/user-attachments/assets/12e114af-3857-48b3-bfb2-28281b484f71" />
 
 ### Asking a general question
 
@@ -264,9 +264,9 @@ Uses the following prompts:
 
 Uses the following prompts:
 1. system prompt: [tutor-modes/!default/1_system.txt](tutor-modes/!default/1_system.txt)
-2. assistant prompt: [tutor-modes/homework-plotting-2/task-2/1_assistant.txt](tutor-modes/plotting-2/task-2/1_assistant.txt)
-3. system prompt: [tutor-modes/homework-plotting-2/task-2/2_system.txt](tutor-modes/plotting-2/task-2/2_system.txt)
-4. system prompt: [tutor-modes/homework-plotting-2/task-2/3_system.txt](tutor-modes/plotting-2/task-2/3_system.txt)
+2. assistant prompt: [tutor-modes/homework-plotting-2/task-2/1_assistant.txt](tutor-modes/homework-plotting-2/task-2/1_assistant.txt)
+3. system prompt: [tutor-modes/homework-plotting-2/task-2/2_system.txt](tutor-modes/homework-plotting-2/task-2/2_system.txt)
+4. system prompt: [tutor-modes/homework-plotting-2/task-2/3_system.txt](tutor-modes/homework-plotting-2/task-2/3_system.txt)
 
 <img width="580" height="695" alt="screenshot_compare_homework_task" src="https://github.com/user-attachments/assets/88bcce3d-2e69-4ffa-9b89-7f1fd766e036" />
 

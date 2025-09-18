@@ -88,8 +88,18 @@ if (isset($_GET['user_name']) || isset($_POST['user_name'])) {
             $_SESSION['continue_last_conversation_once'] = true;
         }
 
-        // For GET requests, use token-based authentication
+        // Validate username for GET authentication
         $auth = new Auth();
+        if (!$auth->validateUsername($user_name, true)) { // true indicates token-based authentication
+            $error_message = "Username does not match the required format pattern. Please check your username format.";
+
+            echo $error_message;
+            echo "<br><br>";
+            echo "<a href='index.php'>Back to Login</a>";
+            exit();
+        }
+
+        // For GET requests, use token-based authentication
         $user_id_db = $auth->login($user_name, $token, true); // true indicates token-based authentication
         
         if (is_numeric($user_id_db)) {
@@ -127,7 +137,17 @@ if (isset($_GET['user_name']) || isset($_POST['user_name'])) {
         $password = isset($_POST['password']) ? $_POST['password'] : '';
 
         if (strlen($user_name) > 0) {
+            // Validate username for POST authentication
             $auth = new Auth();
+            if (!$auth->validateUsername($user_name, false)) { // false indicates password-based authentication
+                $error_message = "Username does not match the required format pattern. Please check your username format.";
+
+                Configuration::getInstance()->renderPage('login.php', [
+                    'error_message' => $error_message
+                ]);
+                exit();
+            }
+            
             $user_id_db = $auth->login($user_name, $password, false); // false indicates password-based authentication
 
             if (is_numeric($user_id_db)) {

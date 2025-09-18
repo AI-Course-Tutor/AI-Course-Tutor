@@ -220,6 +220,31 @@ class Auth {
     }
 
     /**
+     * Validates username according to configuration requirements
+     * @param string $username The username to validate
+     * @param bool $isTokenAuth True for GET/token auth, false for POST/password auth
+     * @return bool True if username meets requirements, false otherwise
+     */
+    public function validateUsername($username, $isTokenAuth) {
+        $config = $isTokenAuth 
+            ? $this->config->getUsernameValidationConfigForGet()
+            : $this->config->getUsernameValidationConfigForPost();
+        
+        if (!$config['enabled']) {
+            return true;
+        }
+
+        // Check if username matches required pattern
+        if (!empty($config['require_pattern'])) {
+            if (!preg_match($config['require_pattern'], $username)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Determines if a stored credential is a hashed password
      * @param string $credential The stored credential
      * @return bool True if it's a hashed password, false otherwise

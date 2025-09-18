@@ -54,6 +54,10 @@
                 "min_length": 8,
                 "require_letters": true,
                 "require_numbers": true
+            },
+            "username_validation": {
+                "enabled": true,
+                "require_pattern": "/^[\\p{L}0-9]+$/u"
             }
         },
         "get": {
@@ -63,6 +67,10 @@
                 "enabled": true,
                 "min_length": 16,
                 "allow_alphanumeric_only": true
+            },
+            "username_validation": {
+                "enabled": true,
+                "require_pattern": "/^[\\p{L}0-9]+$/u"
             }
         }
     }

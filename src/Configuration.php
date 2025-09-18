@@ -282,6 +282,26 @@ class Configuration {
     }
 
     /**
+     * Get username validation configuration for POST authentication
+     */
+    public function getUsernameValidationConfigForPost(): array {
+        return $this->system['authentication']['post']['username_validation'] ?? [
+            'enabled' => false,
+            'require_pattern' => ''
+        ];
+    }
+
+    /**
+     * Get username validation configuration for GET authentication
+     */
+    public function getUsernameValidationConfigForGet(): array {
+        return $this->system['authentication']['get']['username_validation'] ?? [
+            'enabled' => false,
+            'require_pattern' => ''
+        ];
+    }
+
+    /**
      * Get list of missing configuration files that are using example fallbacks
      */
     public function getMissingConfigFiles(): array {

@@ -149,9 +149,11 @@ Copy from `system.example.json` and customize:
 - `authentication.post.enabled`: Allow POST (form) authentication
   - `authentication.post.require_password` (true: login with username and password; false: login with username only)
   - `authentication.post.password_validation`: controls minimum length and character requirements
+  - `authentication.post.username_validation`: controls the allowed username format (e.g., only letters and numbers)
 - `authentication.get.enabled`: Allow GET (URL) authentication
   - `authentication.get.require_token` (true: login with username and token; false: login with username only)
   - `authentication.get.token_validation`: controls minimum length and allowed characters
+  - `authentication.get.username_validation`: controls the allowed username format (e.g., only letters and numbers)
 
 ### Tutor Modes Configuration (`config/tutor-modes.json`)
 Copy from `tutor-modes.example.json` and customize:

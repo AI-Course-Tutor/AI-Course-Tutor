@@ -182,6 +182,11 @@ You can customize the color scheme of the Tutor by creating a custom CSS file:
 
 This approach allows you to customize colors without modifying the core CSS files, making it easy to maintain your customizations when updating the project.
 
+
+### Template Content Customization
+There are also some template files that regularly require customization, such as legal notice or privacy policy. These files also follow the .example pattern described above. That is, copy the respective files to the same filename without example in its name and customize (e.g., copy `templates/pages/privacy-policy.example.php` to `templates/pages/privacy-policy.php` and customize the content).
+
+
 ### Database
 The following parameters must be changed in `.env` (copy and rename the `.env.example` for this):
 

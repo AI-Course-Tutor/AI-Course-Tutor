@@ -11,11 +11,10 @@ $consent_options = $config->getConsentOptions();
 
 ?>
 <div>
-    <h2>Participant Information and Consent</h2>
-    <p>
-        Add your participant information here as required.
-    </p>
-
+    <?php
+    // show participant information
+    $config->includeTemplate('components/consent_participant_information.php');
+    ?>
     
     <h3>Please choose one of the following options:</h3>
 

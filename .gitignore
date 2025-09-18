@@ -8,7 +8,7 @@
 /config/tutor-modes.json
 
 # Project-specific template files (use .example files as templates)
-/templates/pages/consent.php
+/templates/components/consent_participant_information.php
 /templates/pages/legal-notice.php
 /templates/pages/login.php
 /templates/pages/privacy-policy.php

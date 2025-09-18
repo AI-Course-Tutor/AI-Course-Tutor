@@ -21,9 +21,9 @@
 </head>
 <body>
 <div class="page-container">
-<header class="vertical-middle" style="display: flex;">
+<header class="vertical-middle border-tb-primary" style="display: flex;">
     <a href="index.php" style="display: flex; align-items: center; height: 100%;"><img src="<?= Configuration::getInstance()->resolveImagePath('logo.png') ?>" style="height: 80%;" alt="Logo"></a>
-    <a href="index.php" style="display: flex; height: 100%; flex-direction: column; padding-left:1em; align-items: center; text-decoration: none;" class="">
+    <a href="index.php" style="display: flex; height: 100%; flex-direction: column; padding-left:1em; align-items: center; text-decoration: none;" class="text-primary">
         <div style="font-size: 0.9em;"><?= Configuration::getInstance()->placeholder('contact.department') ?></div>
         <div style="font-weight: bold; font-size: 1.2em;"><?= Configuration::getInstance()->placeholder('tutor.name') ?></div>
     </a>

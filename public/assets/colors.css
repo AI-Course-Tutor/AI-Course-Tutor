@@ -33,7 +33,7 @@
     
     /* Toggle Colors */
     --toggle-bg-disabled: var(--border-color);
-    --toggle-bg-enabled: var(--primary-color);
+    --toggle-bg-enabled: var(--secondary-color);
     --toggle-dot-color: var(--white-text);
     
     /* Error/Warning Colors */
